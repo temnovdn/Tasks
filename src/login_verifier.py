@@ -31,11 +31,14 @@ def verify_login_if_else(login):
 
     if first in alphabetical:
         if last in alphanumeric:
-            for char in login[1:-1]:
+            for char in login[1:-2]:
                 if not (char in allowed):
                     result = False
+                    break
         else:
             result = False
     else:
         result = False
+
+    return result
 
