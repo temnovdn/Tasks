@@ -16,9 +16,7 @@ def parse_log(file_name):
         content = opened_file.read()
 
     list_found = re.findall(IP_PATTERN, content)
-    list_ips = []
-    for item in list_found:
-        list_ips.append(item[0])
+    list_ips = [item[0] for item in list_found]
 
     top_ten = Counter(list_ips).most_common(10)
     return top_ten

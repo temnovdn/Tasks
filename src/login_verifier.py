@@ -1,6 +1,7 @@
 import re
 import regex
 import string
+import resource
 from functools import wraps
 from time import time
 
@@ -19,6 +20,17 @@ def measure_time(function):
         print('Function %s took %s time to execute'%(function.__name__, elapsed))
         return result
     return wrapper
+
+def get_max_memory(function):
+    """Tracks memory usage by a function and returns maximum consumtion value
+    :parameter function
+    """
+    @wraps(function)
+    def wrapper(*args, **kwds):
+        result = function(*args, **kwds)
+
+        while True:
+            memory = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
 
 @measure_time
@@ -43,7 +55,7 @@ def verify_login_if_else(login):
     :parameter login
     """
     alphabetical = string.ascii_letters
-    numeric = "01234567890"
+    numeric = "0123456789"
     symbol = ".-_"
     alphanumeric = alphabetical + numeric
     allowed = alphanumeric + symbol
