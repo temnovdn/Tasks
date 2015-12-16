@@ -1,14 +1,14 @@
 import re
+import regex
 import string
 from functools import wraps
 from time import time
-from memory_profiler import memory_usage
 
 PATTERN = r'^[a-zA-Z](\w|\d|\.|\-){0,18}[a-zA-Z0-9]$|^[a-zA-Z0-9]$'
 
 
-def measure_time_and_memory(function):
-    """Prints function execution time
+def measure_time(function):
+    """Prints function execution time.
     :param function
     """
     @wraps(function)
@@ -21,25 +21,24 @@ def measure_time_and_memory(function):
     return wrapper
 
 
-@measure_time_and_memory
-def verify_login_regexp(login, pattern):
-    """Verifies login string with python re library and returns True if it matches
-     python regexp pattern
+@measure_time
+def verify_login_re(pattern, login):
+    """Matches login string with regexp pattern, using re module from python standard library and returns True if it matches
     Returns False otherwise.
     :parameter login
     :parameter pattern
     """
     result = re.match(pattern, login)
-    if result == None:
+    if result is None:
         return False
     else:
         return True
 
 
-@measure_time_and_memory
+@measure_time
 def verify_login_if_else(login):
-    """Verifies login string by trying some if-else conditions and returns True if it matches
-    python regexp pattern ^[a-zA-Z](\w|\d|\.|\-){0,19}[a-zA-Z]$|^[a-zA-Z0-9]$
+    """Matches login string with login pattern (regexp: '^[a-zA-Z](\w|\d|\.|\-){0,18}[a-zA-Z0-9]$|^[a-zA-Z0-9]$')
+    by trying some if-else conditions and returns True if it matches.
     Returns False otherwise.
     :parameter login
     """
@@ -71,27 +70,45 @@ def verify_login_if_else(login):
 
     return result
 
+
+@measure_time
+def verify_login_regex(pattern, login):
+    """Matches login string with pattern, using regex library (https://pypi.python.org/pypi/regex)
+    and returns True if it matches.
+     python regexp pattern
+    Returns False otherwise.
+    :parameter login
+    :parameter pattern
+    """
+    result = regex.match(pattern, login)
+    if result is None:
+        return False
+    else:
+        return True
+
+# Code to measure execution time of various versions
 # Verifying valid login strings
 print('Verifying valid login strings')
-print('Regexp: {}'.format(verify_login_regexp('Some.LogIn12_totest1', PATTERN)))
+print('Re: {}'.format(verify_login_re(PATTERN, 'Some.LogIn12_totest1')))
+print('Regex: {}'.format(verify_login_regex(PATTERN, 'Some.LogIn12_totest1')))
 print('If else: {} \n'.format(verify_login_if_else('Some.LogIn12_totest1')))
 # Too long strings
 print('Too long strings')
-print('Regexp: {}'.format(verify_login_regexp('Some.LogIn123_totest123123123', PATTERN)))
+print('Re: {}'.format(verify_login_re(PATTERN, 'Some.LogIn123_totest123123123')))
+print('Regex: {}'.format(verify_login_regex(PATTERN, 'Some.LogIn123_totest123123123')))
 print('If else: {} \n'.format(verify_login_if_else('Some.LogIn123_totest123123123')))
 # One letter string
 print('One letter string')
-print('Regexp: {}'.format(verify_login_regexp('S', PATTERN)))
+print('Re: {}'.format(verify_login_re(PATTERN, 'S')))
+print('Regex: {}'.format(verify_login_regex(PATTERN, 'S')))
 print('If else: {} \n'.format(verify_login_if_else('S')))
 # String with unallowed symbol in the end
 print('String with unallowed symbol in the end')
-print('Regexp: {}'.format(verify_login_regexp('Some.LogIn12_totest_', PATTERN)))
+print('Re: {}'.format(verify_login_re(PATTERN, 'Some.LogIn12_totest_')))
+print('Regex: {}'.format(verify_login_regex(PATTERN, 'Some.LogIn12_totest_')))
 print('If else: {} \n'.format(verify_login_if_else('Some.LogIn12_totest_')))
 # String with unallowed symbol in the beginning
-print('String with unallowed symbol in the end')
-print('Regexp: {}'.format(verify_login_regexp('1ome.LogIn12_totest1', PATTERN)))
+print('String with unallowed symbol in the beginning')
+print('Re: {}'.format(verify_login_re(PATTERN, '1ome.LogIn12_totest1')))
+print('Regex: {}'.format(verify_login_regex(PATTERN, '1ome.LogIn12_totest1')))
 print('If else: {} \n'.format(verify_login_if_else('1ome.LogIn12_totest1')))
-
-print('If/else version is slightly faster than regexp version')
-
-
