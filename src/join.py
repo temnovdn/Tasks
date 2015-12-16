@@ -9,8 +9,7 @@ def join(keys, values):
     for key in keys:
         index = keys.index(key)
         if index < len(values):
-            value = values[index]
-            dictionary[key] = value
+            dictionary[key] = values[index]
         else:
             dictionary[key] = None
     return dictionary
