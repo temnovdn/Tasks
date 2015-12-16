@@ -8,3 +8,8 @@ def join(keys, values):
         else:
             dictionary[key] =  "None"
     return dictionary
+
+a = [0, 1, 2, 3, 4, 5]
+b = [0, 1, 2, 3, 4, 5, 6]
+
+print(join(a, b))

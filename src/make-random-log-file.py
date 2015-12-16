@@ -1,12 +1,12 @@
 import random
+
+
 file_to_write = open('resources/shuffled_data', mode='w')
 
 ips = []
-for i in range(0, 100):
-    ip = str(random.randint(0, 255)) + '.' +\
-         str(random.randint(0, 255)) + '.' +\
-         str(random.randint(0, 255)) + '.' +\
-         str(random.randint(0, 255)) + '\n'
+for i in range(50, 100):
+    ip = (' ' + str(random.randint(0, 255)) + '.' + str(random.randint(0, 255)) + '.' +
+         str(random.randint(0, 255)) + '.' + str(random.randint(0, 255)) + ' ' + '\n')
 
     ips.append(ip)
 

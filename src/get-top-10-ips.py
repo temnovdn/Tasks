@@ -1,18 +1,29 @@
 import re
 from collections import Counter
+from optparse import OptionParser
 
-filepath = raw_input('Log file path: ')
+IP_PATTERN = r'((1\d{1,2}\.|\d\.|\d{2}\.|2[0-4]\d\.|25[0-5]\.){3}(25[0-5]|2[0-4]\d|1\d{1,2}|\d{2}|\d){1})+'
 
-opened_file = open(str(filepath), mode='r')
-content = opened_file.readlines()
+parser = OptionParser(usage='usage: [-f <log file>][--file <log file>]')
+parser.add_option('-f', '--file', dest='file', help='Path to log file')
+(options, args) = parser.parse_args()
 
-list_ips = []
-for line in content:
-    if re.findall('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', line):
-        ip = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', line).string.rstrip('\n')
-        list_ips.append(ip)
+file_path = vars(options).get('file')
 
-top_ten = Counter(list_ips).most_common(10)
 
-for item in top_ten:
+def parse_log(file_name):
+    with open(str(file_name), mode='r') as opened_file:
+        content = opened_file.read()
+
+    list_found = re.findall(IP_PATTERN, content)
+    list_ips = []
+    for item in list_found:
+        list_ips.append(item[0])
+
+    top_ten = Counter(list_ips).most_common(10)
+    return top_ten
+
+top = parse_log(file_path)
+
+for item in top:
     print(item)
