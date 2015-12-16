@@ -6,10 +6,9 @@ def join(keys, values):
     :parameter values
     """
     dictionary = {}
-    for key in keys:
-        index = keys.index(key)
+    for index in range(len(keys)):
         if index < len(values):
-            dictionary[key] = values[index]
+            dictionary[keys[index]] = values[index]
         else:
-            dictionary[key] = None
+            dictionary[keys[index]] = None
     return dictionary
