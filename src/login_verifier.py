@@ -102,12 +102,12 @@ print('One letter string')
 print('Re: {}'.format(verify_login_re(PATTERN, 'S')))
 print('Regex: {}'.format(verify_login_regex(PATTERN, 'S')))
 print('If else: {} \n'.format(verify_login_if_else('S')))
-# String with unallowed symbol in the end
+# String with unallowed symbol at the end
 print('String with unallowed symbol in the end')
 print('Re: {}'.format(verify_login_re(PATTERN, 'Some.LogIn12_totest_')))
 print('Regex: {}'.format(verify_login_regex(PATTERN, 'Some.LogIn12_totest_')))
 print('If else: {} \n'.format(verify_login_if_else('Some.LogIn12_totest_')))
-# String with unallowed symbol in the beginning
+# String with unallowed symbol at the beginning
 print('String with unallowed symbol in the beginning')
 print('Re: {}'.format(verify_login_re(PATTERN, '1ome.LogIn12_totest1')))
 print('Regex: {}'.format(verify_login_regex(PATTERN, '1ome.LogIn12_totest1')))
