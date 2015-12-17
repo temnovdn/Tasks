@@ -24,4 +24,4 @@ def parse_log(file_name):
 top = parse_log(file_path)
 
 for item in top:
-    print(item)
+    print('Ip: %s, requests count: %s' % item)
