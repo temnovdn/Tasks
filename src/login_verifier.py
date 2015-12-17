@@ -1,7 +1,7 @@
 import re
 import regex
 import string
-import resource
+from memory_profiler import profile
 from functools import wraps
 from time import time
 
@@ -17,23 +17,12 @@ def measure_time(function):
         start = time()
         result = function(*args, **kwds)
         elapsed = time() - start
-        print('Function %s took %s time to execute'%(function.__name__, elapsed))
+        print('Function {0} took {1} time to execute'.format(function.__name__, elapsed))
         return result
     return wrapper
 
-def get_max_memory(function):
-    """Tracks memory usage by a function and returns maximum consumtion value
-    :parameter function
-    """
-    @wraps(function)
-    def wrapper(*args, **kwds):
-        result = function(*args, **kwds)
-
-        while True:
-            memory = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-
-
 @measure_time
+@profile
 def verify_login_re(pattern, login):
     """Matches login string with regexp pattern, using re module from python standard library and returns True if it matches
     Returns False otherwise.
@@ -48,6 +37,7 @@ def verify_login_re(pattern, login):
 
 
 @measure_time
+@profile
 def verify_login_if_else(login):
     """Matches login string with login pattern (regexp: '^[a-zA-Z](\w|\d|\.|\-){0,18}[a-zA-Z0-9]$|^[a-zA-Z0-9]$')
     by trying some if-else conditions and returns True if it matches.
@@ -84,6 +74,7 @@ def verify_login_if_else(login):
 
 
 @measure_time
+@profile
 def verify_login_regex(pattern, login):
     """Matches login string with pattern, using regex library (https://pypi.python.org/pypi/regex)
     and returns True if it matches.
