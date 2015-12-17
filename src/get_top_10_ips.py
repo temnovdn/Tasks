@@ -2,7 +2,7 @@ import re
 from collections import Counter
 from optparse import OptionParser
 
-IP_PATTERN = r'\D((25[0-5]\.|2[0-4]\d\.|1\d{2}\.|[1-9]\d\.|\d\.){3}(25[0-5]|2[0-4]\d|1\d{2}|[1-9]\d|\d))+\D'
+IP_PATTERN = r'((25[0-5]\.|2[0-4]\d\.|1?\d?\d\.){3}(25[0-5]|2[0-4]\d|1?\d?\d))'
 
 parser = OptionParser(usage='usage: [-f <log file>][--file <log file>]')
 parser.add_option('-f', '--file', dest='file', help='Path to log file')
